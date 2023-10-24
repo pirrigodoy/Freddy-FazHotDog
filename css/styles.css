@@ -1,0 +1,11 @@
+.custom-collapse {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1;
+    display: none;
+}
+
+.navbar.expanded .custom-collapse {
+    display: block;
+}
