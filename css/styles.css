@@ -1,11 +1,13 @@
-.custom-collapse {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1;
-    display: none;
+
+.custom-navbar {
+    background-color: #BB2100;
 }
 
-.navbar.expanded .custom-collapse {
-    display: block;
+.linkPedido{
+    text-decoration: none;
+    color: black;
+}
+
+.linkPedido:hover{
+    color: #BB2100;
 }
