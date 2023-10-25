@@ -12,11 +12,13 @@ $carta = [
 ];
 
 $ingredientes=[
-    "Salchicha Grande" =>["precio"=>2,"tipo"=>"salchicha", "source"=>"Salchicha.png"],
-    "Salchicha Mediana" =>["precio"=>1.5,"tipo"=>"salchicha", "source"=>"Salchicha.png"],
-    "Salchicha Pequeña" =>["precio"=>1,"tipo"=>"salchicha", "source"=>"Salchicha.png"],
+    "Salchicha Deluxe" =>["precio"=>2,"tipo"=>"salchicha", "source"=>"Salchicha.png"],
+    "Salchicha Classic" =>["precio"=>1.5,"tipo"=>"salchicha", "source"=>"Salchicha.png"],
+    "Salchicha Basic" =>["precio"=>1,"tipo"=>"salchicha", "source"=>"Salchicha.png"],
     "Pan Brioche" =>["precio"=>1,"tipo"=>"pan", "source"=>"Salchicha.png"],
     "Pan Classic" =>["precio"=>0.5,"tipo"=>"pan", "source"=>"Salchicha.png"],
     "Topping 1" =>["precio"=>0.5,"tipo"=>"pan", "source"=>"Salchicha.png"],
+    "Topping 2" =>["precio"=>0.5,"tipo"=>"pan", "source"=>"Salchicha.png"],
+    "Topping 3" =>["precio"=>0.5,"tipo"=>"pan", "source"=>"Salchicha.png"],
 ]
 ?>
