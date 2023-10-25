@@ -1,56 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+require_once './functions/functions-structure.php';
+require_once './functions/functions.php';
+require_once './functions/user.php';
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Freddy FazHotDog</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="./css/styles.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-</head>
+$inputs = [];
+$errors = [];
 
-<nav class="navbar navbar-dark custom-navbar">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#"> <img src=./img/logo.png height="75" width="75"></img> </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pedido</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Carta</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Login</a>
-                </li>
-            </ul>
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = $_POST['name'] ?? '';
+    $password = $_POST['password'] ?? '';
+
+    // Llamar a la función de login para verificar las credenciales
+    $loginResult = login($name, $password);
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $name = $_POST['name'] ?? '';
+        $password = $_POST['password'] ?? '';
+
+        // Llamar a la función de login para verificar las credenciales
+        $loginResult = login($name, $password);
+
+        if ($loginResult === 1) {
+            // Inicio de sesión exitoso
+            session_start(); // Inicia la sesión si no está iniciada
+            $_SESSION['user_name'] = $name; // Almacena el nombre de usuario en una variable de sesión
+            header('Location: home.php'); // Redirige al usuario a la página de inicio
+            exit;
+        }
+    } else {
+        $errors['password'] = 'Nombre de usuario o contraseña incorrectos';
+    }
+}
+
+?>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <center>
+                <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
+                    <header>
+                        <h1>Login</h1>
+                    </header>
+                    <div>
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Name" value="<?php echo $inputs['name'] ?? '' ?>" class="<?php echo isset($errors['name']) ? 'error' : '' ?>">
+                    </div>
+                    <small><?php echo $errors['name'] ?? '' ?></small>
+                    <div>
+                        <label for="password">Password:</label>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="********" value="<?php echo $inputs['password'] ?? '' ?>" class="<?php echo isset($errors['password']) ? 'error' : '' ?>">
+                    </div>
+                    <small><?php echo $errors['password'] ?? '' ?></small>
+                    <br>
+                    <button class="btn btn-outline-danger" type="submit">Log in</button>
+                </form>
+            </center>
         </div>
     </div>
-</nav>
-
-<body>
-    <div class="container">
-        <br>
-        <h1 class="text-center">Freddy FazHotDog</h1>
-        <br>
-        <div class="row">
-            <img src="" alt="FreddyBanner">
-            <br>
-            <h2 class="text-center">Nuestros productos mas vendidos</h2>
-            <?php
-
-            ?>
-            <br>
-            <a href="pedido_view.html" class="linkPedido"><h3 class=" text-center">¡Haz tu pedido ya!</h3></a>
-        </div>
-    </div>
-
-</body>
-
-</html>
+</div>
