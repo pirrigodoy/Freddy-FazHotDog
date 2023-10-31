@@ -1,93 +1,192 @@
-<?php
-require_once "carta.php";
+<?php require_once "carta.php";require_once "functions.php";
+//$user_name = $_SESSION['user_name'] ?? ''; // Obtiene el nombre de usuario de la sesión
+if(checkLogin()){
+if (isset($_GET['logout']) && $_GET['logout'] == 1) {
+    // Destruir la sesión
+    //session_destroy();
+
+    // Redirigir a index.php
+    header("Location: ../index.php");
+    exit;
+}
 ?>
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <center>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+<nav class="navbar navbar-dark custom-navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"> <img src=../img/logo.png height="75" width="75"></img> </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li>
+                    <a>Bienvenido <?php echo $user_name; ?> </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./">Pedido</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../carta_view.php">Carta</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="?logout=1">Log out</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
                 <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
                     <header>
-                        <h1>Haz tu pedido!!!</h1>
-                        <h3>Cliente</h3>
+                        <h1 class="text-primary">Haz tu pedido!!!</h1>
+                        <h3 class="text-primary">Cliente</h3>
                     </header>
-                    <div>
-                        <label for="name">Nombre:</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="Name" value="<?php echo $inputs['name'] ?? '' ?>" class="<?php echo isset($errors['name']) ? 'error' : '' ?>">
+                    <div class="form-group">
+                        <label class="form-label" for="name">Nombre:</label>
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Name" value="<?php echo $inputs['name'] ?? '' ?>">
                     </div>
-                    <div>
-                        <label for="apellido">Apellido:</label>
-                        <input type="text" class="form-control" name="apellido" id="apellido" placeholder="apellido" value="<?php echo $inputs['apellido'] ?? '' ?>" class="<?php echo isset($errors['apellido']) ? 'error' : '' ?>">
+                    <div class="form-group">
+                        <label class="form-label" for="apellido">Apellido:</label>
+                        <input type="text" class="form-control" name="apellido" id="apellido" placeholder="Apellido" value="<?php echo $inputs['apellido'] ?? '' ?>">
                     </div>
-                    <div>
-                        <label for="curso">Curso:</label>
-                        <input type="text" class="form-control" name="curso" id="curso" placeholder="curso" value="<?php echo $inputs['curso'] ?? '' ?>" class="<?php echo isset($errors['curso']) ? 'error' : '' ?>">
+                    <div class="form-group">
+                        <label class="form-label" for="curso">Curso:</label>
+                        <input type="text" class="form-control" name="curso" id="curso" placeholder="Curso" value="<?php echo $inputs['curso'] ?? '' ?>">
                     </div>
-                    <div>
-                        <label for="telefono">Telefono:</label>
-                        <input type="number" class="form-control" name="telefono" id="telefono" placeholder="telefono" value="<?php echo $inputs['telefono'] ?? '' ?>" class="<?php echo isset($errors['telefono']) ? 'error' : '' ?>">
+                    <div class="form-group">
+                        <label class="form-label" for="telefono">Telefono:</label>
+                        <input type="number" class="form-control" name="telefono" id="telefono" placeholder="Teléfono" value="<?php echo $inputs['telefono'] ?? '' ?>">
                     </div>
-                    <div>
-                        <label for="email">Email:</label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="email" value="<?php echo $inputs['email'] ?? '' ?>" class="<?php echo isset($errors['email']) ? 'error' : '' ?>">
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email:</label>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email" value="<?php echo $inputs['email'] ?? '' ?>">
                     </div>
-                    <div>
-                        <label for="dni">DNI:</label>
-                        <input type="number" class="form-control" name="dni" id="dni" placeholder="dni" value="<?php echo $inputs['dni'] ?? '' ?>" class="<?php echo isset($errors['dni']) ? 'error' : '' ?>">
-                    </div>
-                    <br>
-                    <h3>Pedido</h3>
-                    <div>
-                        <label for="cantidad">Cantidad:</label>
-                        <input type="number" class="form-control" name="cantidad" id="cantidad" placeholder="cantidad" value="<?php echo $inputs['cantidad'] ?? '' ?>" class="<?php echo isset($errors['cantidad']) ? 'error' : '' ?>">
+                    <div class="form-group">
+                        <label class="form-label" for="dni">DNI:</label>
+                        <input type="number" class="form-control" name="dni" id="dni" placeholder="DNI" value="<?php echo $inputs['dni'] ?? '' ?>">
                     </div>
                     <br>
-                    <div>
-                        <label>Tamaño:</label>
-                        <br>
-                        <input class="form-check-input" type="radio" id="mini" name="mini" value="<?php echo $inputs['mini'] ?? '' ?>" class="<?php echo isset($errors['mini']) ? 'error' : '' ?>">
-                        <label for="mini">Mini</label>
-                        <input class="form-check-input" type="radio" id="mediano" name="mini" value="<?php echo $inputs['mediano'] ?? '' ?>" class="<?php echo isset($errors['mediano']) ? 'error' : '' ?>">
-                        <label for="mini">Mediano</label>
-                        <input class="form-check-input" type="radio" id="grande" name="mini" value="<?php echo $inputs['grande'] ?? '' ?>" class="<?php echo isset($errors['grande']) ? 'error' : '' ?>">
-                        <label for="mini">Grande</label>
+                    <h3 class="text-primary">Pedido</h3>
+                    <div class="form-group">
+                        <label class="form-label" for="cantidad">Cantidad:</label>
+                        <input type="number" class="form-control" name="cantidad" id="cantidad" placeholder="Cantidad" value="<?php echo $inputs['cantidad'] ?? '' ?>">
                     </div>
                     <br>
-                    <div>
-                        <label>Tipo de Hot Dog:</label>
-                        <br>
+                    <div class="form-group">
+                        <label class="form-label">Tamaños:</label>
                         <?php
-                        $allHotDogs = getAllHotDogs();
-                        foreach ($allHotDogs as $hotDogName => $hotDogData) {
-                            echo '<input class="form-check-input" type="radio" id="' . $hotDogName . '" name="hotDog" value="' . $hotDogName . '">';
-                            echo '<label for="' . $hotDogName . '">' . $hotDogName . '</label>';
+                        $tamanyos = getAllTamanyos();
+                        foreach ($tamanyos as $tamanyo=>$tamanyoData) {
+                            echo '<div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="tamanyo" id="' . $tamanyo . '" value="' . $tamanyo . '">
+                                        <label class="form-check-label" for="' . $tamanyo . '">' . $tamanyo ." (+". $tamanyoData["precio"]."€)".'</label>
+                                    </div>';
                         }
                         ?>
                     </div>
-                    <div>
-                        <label for="ingredient">Ingredientes:</label>
-                        <br>
-                        <select class="form-select" id="ingredient" name="ingredient">
-                            <option value="">Selecciona un ingrediente</option>
-                            <?php
-                            $allIngredients = getAllIngredients();
+                    <br>
 
-                            foreach ($allIngredients as $ingredientName => $ingredientData) {
-                                // foreach($ingredientData as $type => $content){
-                                //     if($type=="salchicha"){
-                                        echo '<option value="' . $ingredientName . '">' . $ingredientName . '</option>';
-                                    }
-                            //     }
-                            // }
+                    <div class="form-group">
+                        <label class="form-label" for="salchicha">Salchicha:</label>
+                        <select class="form-select" name="salchicha" id="salchicha" value="<?php echo $inputs['salchicha'] ?? '' ?>">
+                            <option value="">Selecciona una salchicha</option>
+                            <?php
+                            $ingredients = getIngredientsByType("salchicha");
+                            foreach ($ingredients as $ingredientName => $ingredientData) {
+                                echo '<option value="' . $ingredientName . '">' . $ingredientName ." - ". $ingredientData["precio"]."€".'</option>';
+                            }
                             ?>
                         </select>
                     </div>
 
+                    <div class="form-group">
+                        <label class="form-label" for="pan">Pan:</label>
+                        <select class="form-select" name="pan" id="pan" value="<?php echo $inputs['pan'] ?? '' ?>">
+                            <option value="">Selecciona un tipo de pan</option>
+                            <?php
+                            $ingredients = getIngredientsByType("pan");
+                            foreach ($ingredients as $ingredientName => $ingredientData) {
+                                echo '<option value="' . $ingredientName . '">' . $ingredientName ." - ". $ingredientData["precio"]."€". '</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="topping">Topping:</label>
+                        <select class="form-select" name="topping" id="topping" value="<?php echo $inputs['topping'] ?? '' ?>">
+                            <option value="">Selecciona un topping</option>
+                            <?php
+                            $ingredients = getIngredientsByType("topping");
+                            foreach ($ingredients as $ingredientName => $ingredientData) {
+                                echo '<option value="' . $ingredientName . '">' . $ingredientName ." - ". $ingredientData["precio"]."€". '</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="form-label">Patatas:</label>
+                        <?php
+                        $ingredients = getAllPatatas();
+                        foreach ($ingredients as $ingredientName => $ingredientData) {
+                            echo '<div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="patatas[]" id="' . $ingredientName . '" value="' . $ingredientName . '">
+                                        <label class="form-check-label" for="' . $ingredientName . '">' . $ingredientName ." - ". $ingredientData["precio"]."€". '</label>
+                                    </div>';
+                        }
+                        ?>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="form-label">Bebidas:</label>
+                        <?php
+                        $allIngredients = getAllBebidas();
+                        foreach ($allIngredients as $ingredientName => $ingredientData) {
+                            echo '<div class="form-check">
+                                        <input class="form-check-input" type="radio" name="bebidas" id="' . $ingredientName . '" value="' .  $ingredientName . '">
+                                        <label class="form-check-label" for="' . $ingredientName . '">' . $ingredientName ." - ". $ingredientData["precio"]."€". '</label>
+                                    </div>';
+                        }
+                        ?>
+                    </div>
+
 
                     <br>
-                    <button class="btn btn-outline-danger" type="submit">Hacer pedido</button>
-                    <button class="btn btn-outline-danger" type="submit">Generar PDF</button>
+                    <button class="btn btn-success" type="submit">Hacer pedido</button>
+                    <button class="btn btn-danger" type="submit">Generar PDF</button>
                 </form>
-            </center>
+                <?php
+                
+                        showPedido();
+                ?>
+
+            </div>
         </div>
     </div>
-</div>
+    </div>
+</body>
+
+</html><?php
+}else{
+    echo "Acceso denegado";
+    var_dump($_SESSION["name"]);
+    var_dump($_SESSION["password"]);
+}?>

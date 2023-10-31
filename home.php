@@ -10,8 +10,9 @@ if (isset($_GET['logout']) && $_GET['logout'] == 1) {
     exit;
 }
 $user_name = $_SESSION['user_name'] ?? ''; // Obtiene el nombre de usuario de la sesión
-
-
+$hotDogClasico = $carta["hotdogs"]["Hot Dog Classic"];
+$hotDogPicante = $carta["hotdogs"]["Hot Dog Picante"];
+$cocaCola = $carta["bebidas"]["Coca Cola"];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -81,46 +82,40 @@ $user_name = $_SESSION['user_name'] ?? ''; // Obtiene el nombre de usuario de la
             </center>
             <br>
             <h2 class="text-center">Nuestros productos mas vendidos</h2>
-            <?php
-            $hotDog1 = $hotDogs["Hot Dog Picante"];
-            $hotDog2 = $hotDogs["Hot Dog Classic"];
-            $bebida = $bebidas["Coca Cola"];
-            ?>
             <div class="row">
                 <div class="col-md-4">
                     <div class="card">
-                        <img src="<?php echo $carta["Hot Dog Picante"]["source"]; ?>" class="card-img-top" alt="Hot Dog Picante">
+                        <img src="./img/<?php echo $hotDogClasico["source"]; ?>" class="card-img-top" alt="Hot Dog Clásico">
+                        <div class="card-body">
+                            <h5 class="card-title">Hot Dog Clásico</h5>
+                            <p class="card-text">Precio: $<?php echo $hotDogClasico["precio"]; ?></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="./img/<?php echo $hotDogPicante["source"]; ?>" class="card-img-top" alt="Hot Dog Picante">
                         <div class="card-body">
                             <h5 class="card-title">Hot Dog Picante</h5>
-                            <p class="card-text">Precio: $<?php echo $carta["Hot Dog Picante"]["precio"]; ?></p>
+                            <p class="card-text">Precio: $<?php echo $hotDogPicante["precio"]; ?></p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card">
-                        <img src="<?php echo $carta["Hot Dog Classic"]["source"]; ?>" class="card-img-top" alt="Hot Dog Classic">
-                        <div class="card-body">
-                            <h5 class="card-title">Hot Dog Classic</h5>
-                            <p class="card-text">Precio: $<?php echo $carta["Hot Dog Classic"]["precio"]; ?></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <img src="<?php echo $bebida["source"]; ?>" class="card-img-top" alt="Coca Cola">
+                        <img src="./img/<?php echo $cocaCola["source"]; ?>" class="card-img-top" alt="Coca Cola">
                         <div class="card-body">
                             <h5 class="card-title">Coca Cola</h5>
-                            <p class="card-text">Precio: $<?php echo $bebida["precio"]; ?></p>
+                            <p class="card-text">Precio: $<?php echo $cocaCola["precio"]; ?></p>
                         </div>
                     </div>
                 </div>
+                <br>
+                <a href="./functions/pedido.php" class="linkPedido">
+                    <h3 class=" text-center">¡Haz tu pedido ya!</h3>
+                </a>
             </div>
-            <br>
-            <a href="./functions/pedido.php" class="linkPedido">
-                <h3 class=" text-center">¡Haz tu pedido ya!</h3>
-            </a>
         </div>
-    </div>
 
 </body>
 

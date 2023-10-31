@@ -1,36 +1,27 @@
 <?php
-require_once './functions/functions-structure.php';
-require_once './functions/functions.php';
-require_once './functions/user.php';
+require_once '../functions/functions-structure.php';
+require_once '../functions/functions.php';
+require_once '../functions/user.php';
 
+session_start(); // Inicia la sesión si no está iniciada
 $inputs = [];
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $_POST['name'] ?? '';
-    $password = $_POST['password'] ?? '';
 
     // Llamar a la función de login para verificar las credenciales
-    $loginResult = login($name, $password);
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $name = $_POST['name'] ?? '';
-        $password = $_POST['password'] ?? '';
-
-        // Llamar a la función de login para verificar las credenciales
-        $loginResult = login($name, $password);
-
+    $loginResult = login($_POST['name'], $_POST['password']);
         if ($loginResult === 1) {
-            // Inicio de sesión exitoso
-            session_start(); // Inicia la sesión si no está iniciada
-            $_SESSION['user_name'] = $name; // Almacena el nombre de usuario en una variable de sesión
+            
+            $_SESSION['name'] = $_POST['name'];
+            $_SESSION['password']= $_POST['password'] ;
             header('Location: home.php'); // Redirige al usuario a la página de inicio
-            exit;
+        
         }
     } else {
         $errors['password'] = 'Nombre de usuario o contraseña incorrectos';
     }
-}
+
 
 ?>
 <div class="container">

@@ -14,26 +14,30 @@ $ingredientes=[
 $bebidas = [
     "Agua" =>["precio"=>0.5, "source"=>"agua.png"],
     "Coca Cola" => ["precio"=>1.5, "source"=>"cocaCola.png"],
-    "Fanta" => ["precio"=>1.5, "source"=>"fanta.png"],
+    "Nestea" => ["precio"=>1.5, "source"=>"Nestea.png"],
     "Sprite" => ["precio"=>1.5, "source"=>"sprite.png"],
 ];
 $patatas = [
-    "Patatas Fritas Classic" =>["precio"=>1, "source"=>"patatasFritasClassic.png"],
+    "Patatas Fritas Classic" =>["precio"=>1, "source"=>"atatas.png"],
     "Patatas Fritas Deluxe" =>["precio"=>1.5, "source"=>"patatasFritasDeluxe.png"],
     "Patatas Fritas Rústicas" =>["precio"=>1, "source"=>"patatasFritasRusticas.png"],
 ];
 $hotDogs = [
     "Hot Dog Picante"=>["ingredientes"=>[$ingredientes["Salchicha Picante"],$ingredientes["Pan Classic"],$ingredientes["Topping Picante"]], "source"=>"hotDogPicante.png"],
-    "Hot Dog Vegetariano"=>["ingredientes"=>[$ingredientes["Salchicha Vegetariana"],$ingredientes["Pan Classic"],$ingredientes["Topping Vegetariano"]], "source"=>"hotDogPicante.png"],
-    "Hot Dog Classic"=>["ingredientes"=>[$ingredientes["Salchicha Classic"],$ingredientes["Pan Classic"],$ingredientes["Topping Classic"]], "source"=>"hotDogPicante.png"],
-    "Hot Dog Deluxe"=>["ingredientes"=>[$ingredientes["Salchicha Deluxe"],$ingredientes["Pan Brioche"],$ingredientes["Topping Deluxe"]], "source"=>"hotDogPicante.png"]
+    "Hot Dog Vegetariano"=>["ingredientes"=>[$ingredientes["Salchicha Vegetariana"],$ingredientes["Pan Classic"],$ingredientes["Topping Vegetariano"]], "source"=>"hotDogVegetariano.png"],
+    "Hot Dog Classic"=>["ingredientes"=>[$ingredientes["Salchicha Classic"],$ingredientes["Pan Classic"],$ingredientes["Topping Classic"]], "source"=>"hotDog.png"],
+    "Hot Dog Deluxe"=>["ingredientes"=>[$ingredientes["Salchicha Deluxe"],$ingredientes["Pan Brioche"],$ingredientes["Topping Deluxe"]], "source"=>"CheeseDog.png"]
 ];
+$tamanyos = ["Grande"=>["precio"=>3], "Mediano"=>["precio"=>2],"Mini"=>["precio"=>1]];
 $carta = [
     "hotdogs" => $hotDogs,
     "bebidas" => $bebidas,
     "patatas" => $patatas
 ];
-
+function getAllTamanyos(){
+    global $tamanyos;
+    return $tamanyos;
+}
 function getAllIngredients(){
     global $ingredientes;
     return  $ingredientes;
@@ -109,20 +113,32 @@ function getIngredientPrice($ingredient){
 }
 
 function getOrderPrice($order):array{
-    $prices = [];
+    $ticket = [];
     foreach($order as $key=>$value){
             if($key==="hotdogs"){
                 foreach($value as $nombre =>$alimento){
-                    $prices[$nombre]=getHotDogPrice($alimento);
+                    $ticket[$nombre]=getHotDogPrice($alimento);
             }
             }else if($key==="bebidas"){
                 foreach($value as $nombre =>$alimento){
-                    $prices[$nombre]=getBebidaPrice($alimento);
+                    $ticket[$nombre]=getBebidaPrice($alimento);
             }
             }else if($key==="patatas"){         
                 foreach($value as $nombre =>$alimento){
-                    $prices[$nombre]=getPatataPrice($alimento);}
+                    $ticket[$nombre]=getPatataPrice($alimento);}
             }
         }
-        return $prices;
+    return $ticket;
 }
+
+function getIngredientsByType($type):array{
+    $ingredients = [];
+    foreach (getAllIngredients() as $nombre => $ingrediente) {
+        if ($ingrediente['tipo'] == $type) {
+            $ingredients[$nombre] = $ingrediente;
+        }
+    }
+    return $ingredients;
+}
+
+?>
