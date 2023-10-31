@@ -1,29 +1,4 @@
 <?php
-$carta = [
-    "Hot Dog Picante"=>["precio"=>2.5,"tipo"=>"comida", "source"=>"HotDogPicante.png"],
-    "Hot Dog Vegetariano"=>["precio"=>3.5,"tipo"=>"comida","source"=>"HotDogVegetariano.png"],
-    "Hot Dog Simple"=>["precio"=>2.5,"tipo"=>"comida","source"=>"HotDog.png"],
-    "Cheese Dog "=>["precio"=>4.5,"tipo"=>"comida","source"=>"CheeseDog.png"],
-    "Chocolate Dog"=>["precio"=>1.5,"tipo"=>"comida","source"=>"ChocolateDog.png"],
-    "Patatas Fritas"=>["precio"=>1,"tipo"=>"comida","source"=>"Patatas.png"],
-    "Agua"=>["precio"=>0.8,"tipo"=>"bebida","source"=>"Agua.png"],
-    "Cocacola"=>["precio"=>1.35,"tipo"=>"bebida","source"=>"cocaCola.png"],
-    "Nestea"=>["precio"=>1.25,"tipo"=>"bebida","source"=>"Nestea.png"],
-];
-
-$hotDogs = [
-    "Hot Dog Picante"=>["ingredientes"=>[$ingredientes[2],$ingredientes[5],$ingredientes[8]], "source"=>"hotDogPicante.png"],
-    "Hot Dog Vegetariano"=>["ingredientes"=>[$ingredientes[1],$ingredientes[5],$ingredientes[7]], "source"=>"hotDogPicante.png"],
-    "Hot Dog Classic"=>["ingredientes"=>[$ingredientes[3],$ingredientes[5],$ingredientes[9]], "source"=>"hotDogPicante.png"],
-    "Hot Dog Deluxe"=>["ingredientes"=>[$ingredientes[0],$ingredientes[4],$ingredientes[6]], "source"=>"otDogPicante.png"]
-];
-
-$bebidas = [
-    "Agua" =>["precio"=>0.5, "source"=>"agua.png"],
-    "Coca Cola" => ["precio"=>1.5, "source"=>"cocaCola.png"],
-    "Fanta" => ["precio"=>1.5, "source"=>"fanta.png"],
-    "Sprite" => ["precio"=>1.5, "source"=>"sprite.png"],
-];
 $ingredientes=[
     "Salchicha Deluxe" =>["precio"=>2,"tipo"=>"salchicha", "source"=>"SalchichaDeluxe.png"],//0
     "Salchicha Vegetariana" =>["precio"=>1.5,"tipo"=>"salchicha", "source"=>"SalchichaVegetariana.png"],//1
@@ -36,35 +11,118 @@ $ingredientes=[
     "Topping Picante" =>["precio"=>0.5,"tipo"=>"topping", "source"=>"Topping3.png"],//8
     "Topping Classic" =>["precio"=>0.5,"tipo"=>"topping", "source"=>"Topping4.png"],//9
 ];
+$bebidas = [
+    "Agua" =>["precio"=>0.5, "source"=>"agua.png"],
+    "Coca Cola" => ["precio"=>1.5, "source"=>"cocaCola.png"],
+    "Fanta" => ["precio"=>1.5, "source"=>"fanta.png"],
+    "Sprite" => ["precio"=>1.5, "source"=>"sprite.png"],
+];
+$patatas = [
+    "Patatas Fritas Classic" =>["precio"=>1, "source"=>"patatasFritasClassic.png"],
+    "Patatas Fritas Deluxe" =>["precio"=>1.5, "source"=>"patatasFritasDeluxe.png"],
+    "Patatas Fritas Rústicas" =>["precio"=>1, "source"=>"patatasFritasRusticas.png"],
+];
+$hotDogs = [
+    "Hot Dog Picante"=>["ingredientes"=>[$ingredientes["Salchicha Picante"],$ingredientes["Pan Classic"],$ingredientes["Topping Picante"]], "source"=>"hotDogPicante.png"],
+    "Hot Dog Vegetariano"=>["ingredientes"=>[$ingredientes["Salchicha Vegetariana"],$ingredientes["Pan Classic"],$ingredientes["Topping Vegetariano"]], "source"=>"hotDogPicante.png"],
+    "Hot Dog Classic"=>["ingredientes"=>[$ingredientes["Salchicha Classic"],$ingredientes["Pan Classic"],$ingredientes["Topping Classic"]], "source"=>"hotDogPicante.png"],
+    "Hot Dog Deluxe"=>["ingredientes"=>[$ingredientes["Salchicha Deluxe"],$ingredientes["Pan Brioche"],$ingredientes["Topping Deluxe"]], "source"=>"hotDogPicante.png"]
+];
+$carta = [
+    "hotdogs" => $hotDogs,
+    "bebidas" => $bebidas,
+    "patatas" => $patatas
+];
 
 function getAllIngredients(){
     global $ingredientes;
     return  $ingredientes;
 }
 function getAllHotDogs(){
-    global $hotdogs;
-    return  $hotdogs;
+    global $hotDogs;
+    return  $hotDogs;
 }
 function getAllBebidas(){
     global $bebidas;
     return  $bebidas;
 }
-//"Hot Dog Picante"=>["ingredientes"=>[$ingredientes[2],$ingredientes[5],$ingredientes[8]], "source"=>"hotDogPicante.png"],
-function getHotDogPrice($hotDog):int{
-    $price =0;
-    foreach($hotDog as $key => $value){
-        foreach($value as $key => $value){
-            if($key=="ingredientes"){
+function getAllPatatas(){
+    global $patatas;
+    return  $patatas;
+}
 
+function getAllCarta(){
+    global $carta;
+    return  $carta; 
+}
+
+/**
+ * Function that returns the price of a hot dog given
+ * Param $hotDog the hot dog of which we want to know it's price.
+ */
+function getHotDogPrice($hotDog):float{
+    $price =0;
+    foreach ($hotDog as $key => $value) {
+        if ($key == "ingredientes") {
+            foreach ($value as $ingredientes=>$ingrediente) {
+                $price += getIngredientPrice($ingrediente);
             }
         }
     }
     return $price;
 }
 
-//"Topping Classic" =>["precio"=>0.5,"tipo"=>"topping", "source"=>"Topping4.png"],//9
-function getIngredientPrice($ingredient){
-    $price = $ingredient["precio"];
+/**
+ * Function that returns the price of the fries given
+ * Param $patata the fries of which we want to know it's price.
+ */
+function getPatataPrice($patata):float{
+    $price =0;
+    foreach ($patata as $key => $value) {
+        if ($key == "precio") {
+            $price = $value;
+        }
+    }
+    return $price;
 }
-echo "Precio salchicha Deluxe".getIngredientPrice($ingredientes[0]);
-?>
+
+/**
+ * Function that returns the price of a drink given
+ * Param $hotDog the drink of which we want to know it's price.
+ */
+function getBebidaPrice($bebida):float{
+    $price =0;
+    foreach ($bebida as $key => $value) {
+        if ($key == "precio") {
+            $price = $value;
+        }
+    }
+    return $price;
+}
+
+/**
+ * Function that returns the price of an ingredient given.
+ * Parm $ingredient the ingredient of which we want to know it's price.
+ */
+function getIngredientPrice($ingredient){
+    return $ingredient["precio"];
+}
+
+function getOrderPrice($order):array{
+    $prices = [];
+    foreach($order as $key=>$value){
+            if($key==="hotdogs"){
+                foreach($value as $nombre =>$alimento){
+                    $prices[$nombre]=getHotDogPrice($alimento);
+            }
+            }else if($key==="bebidas"){
+                foreach($value as $nombre =>$alimento){
+                    $prices[$nombre]=getBebidaPrice($alimento);
+            }
+            }else if($key==="patatas"){         
+                foreach($value as $nombre =>$alimento){
+                    $prices[$nombre]=getPatataPrice($alimento);}
+            }
+        }
+        return $prices;
+}

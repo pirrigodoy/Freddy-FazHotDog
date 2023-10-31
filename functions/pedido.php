@@ -1,7 +1,5 @@
 <?php
-$pedido=[
-    
-];
+require_once "carta.php";
 ?>
 <div class="container">
     <div class="row">
@@ -37,20 +35,54 @@ $pedido=[
                         <input type="number" class="form-control" name="dni" id="dni" placeholder="dni" value="<?php echo $inputs['dni'] ?? '' ?>" class="<?php echo isset($errors['dni']) ? 'error' : '' ?>">
                     </div>
                     <br>
-                       <h3>Pedido</h3>
+                    <h3>Pedido</h3>
                     <div>
                         <label for="cantidad">Cantidad:</label>
                         <input type="number" class="form-control" name="cantidad" id="cantidad" placeholder="cantidad" value="<?php echo $inputs['cantidad'] ?? '' ?>" class="<?php echo isset($errors['cantidad']) ? 'error' : '' ?>">
                     </div>
+                    <br>
                     <div>
-                    <label>Tamaño</label>
-                          <input type="radio" id="mini" name="mini" value="<?php echo $inputs['mini'] ?? '' ?>" class="<?php echo isset($errors['mini']) ? 'error' : '' ?>">
-                          <label for="html">Mini</label>
-                          <input type="radio" id="mediano" name="mediano" value="<?php echo $inputs['mediano'] ?? '' ?>" class="<?php echo isset($errors['mediano']) ? 'error' : '' ?>">
-                          <label for="css">Mediano</label>
-                          <input type="radio" id="grande" name="grande" value="<?php echo $inputs['grande'] ?? '' ?>" class="<?php echo isset($errors['grande']) ? 'error' : '' ?>">
-                          <label for="javascript">Grande</label>
+                        <label>Tamaño:</label>
+                        <br>
+                        <input class="form-check-input" type="radio" id="mini" name="mini" value="<?php echo $inputs['mini'] ?? '' ?>" class="<?php echo isset($errors['mini']) ? 'error' : '' ?>">
+                        <label for="mini">Mini</label>
+                        <input class="form-check-input" type="radio" id="mediano" name="mini" value="<?php echo $inputs['mediano'] ?? '' ?>" class="<?php echo isset($errors['mediano']) ? 'error' : '' ?>">
+                        <label for="mini">Mediano</label>
+                        <input class="form-check-input" type="radio" id="grande" name="mini" value="<?php echo $inputs['grande'] ?? '' ?>" class="<?php echo isset($errors['grande']) ? 'error' : '' ?>">
+                        <label for="mini">Grande</label>
                     </div>
+                    <br>
+                    <div>
+                        <label>Tipo de Hot Dog:</label>
+                        <br>
+                        <?php
+                        $allHotDogs = getAllHotDogs();
+                        foreach ($allHotDogs as $hotDogName => $hotDogData) {
+                            echo '<input class="form-check-input" type="radio" id="' . $hotDogName . '" name="hotDog" value="' . $hotDogName . '">';
+                            echo '<label for="' . $hotDogName . '">' . $hotDogName . '</label>';
+                        }
+                        ?>
+                    </div>
+                    <div>
+                        <label for="ingredient">Ingredientes:</label>
+                        <br>
+                        <select class="form-select" id="ingredient" name="ingredient">
+                            <option value="">Selecciona un ingrediente</option>
+                            <?php
+                            $allIngredients = getAllIngredients();
+
+                            foreach ($allIngredients as $ingredientName => $ingredientData) {
+                                // foreach($ingredientData as $type => $content){
+                                //     if($type=="salchicha"){
+                                        echo '<option value="' . $ingredientName . '">' . $ingredientName . '</option>';
+                                    }
+                            //     }
+                            // }
+                            ?>
+                        </select>
+                    </div>
+
+
                     <br>
                     <button class="btn btn-outline-danger" type="submit">Hacer pedido</button>
                     <button class="btn btn-outline-danger" type="submit">Generar PDF</button>

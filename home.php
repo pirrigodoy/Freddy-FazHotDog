@@ -39,10 +39,10 @@ $user_name = $_SESSION['user_name'] ?? ''; // Obtiene el nombre de usuario de la
                     <a>Bienvenido <?php echo $user_name; ?> </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="pedido.php">Pedido</a>
+                    <a class="nav-link" href="./functions/pedido.php">Pedido</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="carta.php">Carta</a>
+                    <a class="nav-link" href="carta_view.php">Carta</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="?logout=1">Log out</a>
